@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Geolocation</title>
+    <link rel="stylesheet" href="/node_modules/ol/ol.css" />
+    <link rel="stylesheet" href="/styles/geolocation.css" />
+  </head>
+  <body>
+        
+    <div id="map" class="map"></div>
+        
+    <div id="info" style="display: none"></div>
+        <label for="track"
+      >track position<input id="track" type="checkbox" />    </label
+    >    
+    <p>
+      position accuracy :
+      <code id="accuracy"></code>&nbsp;&nbsp;altitude :
+      <code id="altitude"></code>&nbsp;&nbsp;altitude accuracy :
+      <code id="altitudeAccuracy"></code>&nbsp;&nbsp;heading :
+      <code id="heading"></code>&nbsp;&nbsp;speed :
+      <code id="speed"></code>coordinates : <code id="coordinates"></code>    
+    </p>
+        <!-- Pointer events polyfill for old browsers, see https://caniuse.com/#feat=pointer -->    
+    <script src="https://cdn.jsdelivr.net/npm/elm-pep@1.0.6/dist/elm-pep.js"></script>
+        
+    <script type="module" src="/javascript/geolocation.js"></script>
+      
+  </body>
+</html>
