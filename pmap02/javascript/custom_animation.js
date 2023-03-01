@@ -10,6 +10,21 @@ import { fromLonLat } from "ol/proj.js";
 import { getVectorContext } from "ol/render.js";
 import { unByKey } from "ol/Observable.js";
 
+const API_URL = "http://localhost:4000/cities";
+const xhr = new XMLHttpRequest();
+
+function onRequestHandler() {
+  if (this.readyState == 4 && this.status == 200) {
+    console.log(this.response);
+    const data = JSON.parse(this.response);
+    data.map((city) => addCityFeature(city.longitude, city.latitude));
+  }
+}
+
+xhr.addEventListener("load", onRequestHandler);
+xhr.open("GET", API_URL);
+xhr.send();
+
 const tileLayer = new TileLayer({
   source: new OSM({
     wrapX: false,
@@ -33,22 +48,22 @@ const map = new Map({
   }),
 });
 
-function addRandomFeature() {
+/*function addRandomFeature() {
   const x = Math.random() * 360 - 180;
   const y = Math.random() * 170 - 85;
   const geom = new Point(fromLonLat([x, y]));
   const feature = new Feature(geom);
   source.addFeature(feature);
-}
+}*/
 
-function addFixedFeature() {
+/*function addFixedFeature() {
   const x = 21.1517602;
   const y = -101.7275252;
   //const coordinates = [-11322443.92342625,2410065.884843269];
   //const geom = new Point(coordinates);
   const feature = new Feature(geom);
   source.addFeature(feature);
-}
+}*/
 
 const duration = 3000;
 function flash(feature) {
@@ -85,8 +100,21 @@ function flash(feature) {
   }
 }
 
-source.on('addfeature', function (e) {
+source.on("addfeature", function (e) {
   flash(e.feature);
 });
 
-window.setInterval(addFixedFeature, 3000);
+//window.setInterval(addFixedFeature, 5000);
+
+function addCityFeature(longitude, latitude) {
+  addFromLonLarFeature(longitude, latitude);
+  window.setInterval(addFromLonLarFeature, 5000);
+}
+
+function addFromLonLarFeature(longitude, latitude) {
+  const x = longitude;
+  const y = latitude;
+  const geom = new Point(fromLonLat([x, y]));
+  const feature = new Feature(geom);
+  source.addFeature(feature);
+}
