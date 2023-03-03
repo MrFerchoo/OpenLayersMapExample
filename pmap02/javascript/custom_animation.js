@@ -13,17 +13,25 @@ import { unByKey } from "ol/Observable.js";
 const API_URL = "http://localhost:4000/cities";
 const xhr = new XMLHttpRequest();
 
-function onRequestHandler() {
-  if (this.readyState == 4 && this.status == 200) {
+async function onRequestHandler(){
+  if(this.readyState == 4 && this.status == 200){
     console.log(this.response);
     const data = JSON.parse(this.response);
-    data.map((city) => addCityFeature(city.longitude, city.latitude));
+    while(true){
+      console.log('calling json map');
+      data.map(city => addCityFeature(city.longitude,city.latitude));
+      await sleep(4000);
+    }
   }
 }
 
 xhr.addEventListener("load", onRequestHandler);
 xhr.open("GET", API_URL);
 xhr.send();
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 const tileLayer = new TileLayer({
   source: new OSM({
